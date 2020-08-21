@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BlueBankModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tbl_Cuentas">
+          <Key>
+            <PropertyRef Name="CuentaNumero" />
+          </Key>
+          <Property Name="CuentaNumero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Saldo" Type="float" Nullable="false" />
+          <Property Name="Persona" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Personas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="cedula" Type="int" />
+        </EntityType>
+        <EntityType Name="Tbl_TiposTranssacciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tbl_Transsacciones">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CuentaNumero" Type="int" Nullable="false" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="Saldo" Type="float" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Tbl_Cuentas_Tbl_Personas">
+          <End Role="Tbl_Personas" Type="Self.Tbl_Personas" Multiplicity="1" />
+          <End Role="Tbl_Cuentas" Type="Self.Tbl_Cuentas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Personas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tbl_Cuentas">
+              <PropertyRef Name="Persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_Transsacciones_Tbl_Cuentas">
+          <End Role="Tbl_Cuentas" Type="Self.Tbl_Cuentas" Multiplicity="1" />
+          <End Role="Tbl_Transsacciones" Type="Self.Tbl_Transsacciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Cuentas">
+              <PropertyRef Name="CuentaNumero" />
+            </Principal>
+            <Dependent Role="Tbl_Transsacciones">
+              <PropertyRef Name="CuentaNumero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_Transsacciones_Tbl_TiposTranssacciones">
+          <End Role="Tbl_TiposTranssacciones" Type="Self.Tbl_TiposTranssacciones" Multiplicity="1" />
+          <End Role="Tbl_Transsacciones" Type="Self.Tbl_Transsacciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_TiposTranssacciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tbl_Transsacciones">
+              <PropertyRef Name="Tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlueBankModelStoreContainer">
+          <EntitySet Name="Tbl_Cuentas" EntityType="Self.Tbl_Cuentas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Personas" EntityType="Self.Tbl_Personas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_TiposTranssacciones" EntityType="Self.Tbl_TiposTranssacciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tbl_Transsacciones" EntityType="Self.Tbl_Transsacciones" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Tbl_Cuentas_Tbl_Personas" Association="Self.FK_Tbl_Cuentas_Tbl_Personas">
+            <End Role="Tbl_Personas" EntitySet="Tbl_Personas" />
+            <End Role="Tbl_Cuentas" EntitySet="Tbl_Cuentas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Transsacciones_Tbl_Cuentas" Association="Self.FK_Tbl_Transsacciones_Tbl_Cuentas">
+            <End Role="Tbl_Cuentas" EntitySet="Tbl_Cuentas" />
+            <End Role="Tbl_Transsacciones" EntitySet="Tbl_Transsacciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Transsacciones_Tbl_TiposTranssacciones" Association="Self.FK_Tbl_Transsacciones_Tbl_TiposTranssacciones">
+            <End Role="Tbl_TiposTranssacciones" EntitySet="Tbl_TiposTranssacciones" />
+            <End Role="Tbl_Transsacciones" EntitySet="Tbl_Transsacciones" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BlueBankModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tbl_Cuentas">
+          <Key>
+            <PropertyRef Name="CuentaNumero" />
+          </Key>
+          <Property Name="CuentaNumero" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Saldo" Type="Double" Nullable="false" />
+          <Property Name="Persona" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tbl_Personas" Relationship="Self.FK_Tbl_Cuentas_Tbl_Personas" FromRole="Tbl_Cuentas" ToRole="Tbl_Personas" />
+          <NavigationProperty Name="Tbl_Transsacciones" Relationship="Self.FK_Tbl_Transsacciones_Tbl_Cuentas" FromRole="Tbl_Cuentas" ToRole="Tbl_Transsacciones" />
+        </EntityType>
+        <EntityType Name="Tbl_Personas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cedula" Type="Int32" />
+          <NavigationProperty Name="Tbl_Cuentas" Relationship="Self.FK_Tbl_Cuentas_Tbl_Personas" FromRole="Tbl_Personas" ToRole="Tbl_Cuentas" />
+        </EntityType>
+        <EntityType Name="Tbl_TiposTranssacciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Tbl_Transsacciones" Relationship="Self.FK_Tbl_Transsacciones_Tbl_TiposTranssacciones" FromRole="Tbl_TiposTranssacciones" ToRole="Tbl_Transsacciones" />
+        </EntityType>
+        <EntityType Name="Tbl_Transsacciones">
+          <Key>
+            <PropertyRef Name="Numero" />
+          </Key>
+          <Property Name="Numero" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CuentaNumero" Type="Int32" Nullable="false" />
+          <Property Name="Tipo" Type="Int32" Nullable="false" />
+          <Property Name="Saldo" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Tbl_Cuentas" Relationship="Self.FK_Tbl_Transsacciones_Tbl_Cuentas" FromRole="Tbl_Transsacciones" ToRole="Tbl_Cuentas" />
+          <NavigationProperty Name="Tbl_TiposTranssacciones" Relationship="Self.FK_Tbl_Transsacciones_Tbl_TiposTranssacciones" FromRole="Tbl_Transsacciones" ToRole="Tbl_TiposTranssacciones" />
+        </EntityType>
+        <Association Name="FK_Tbl_Cuentas_Tbl_Personas">
+          <End Role="Tbl_Personas" Type="Self.Tbl_Personas" Multiplicity="1" />
+          <End Role="Tbl_Cuentas" Type="Self.Tbl_Cuentas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Personas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tbl_Cuentas">
+              <PropertyRef Name="Persona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_Transsacciones_Tbl_Cuentas">
+          <End Role="Tbl_Cuentas" Type="Self.Tbl_Cuentas" Multiplicity="1" />
+          <End Role="Tbl_Transsacciones" Type="Self.Tbl_Transsacciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_Cuentas">
+              <PropertyRef Name="CuentaNumero" />
+            </Principal>
+            <Dependent Role="Tbl_Transsacciones">
+              <PropertyRef Name="CuentaNumero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tbl_Transsacciones_Tbl_TiposTranssacciones">
+          <End Role="Tbl_TiposTranssacciones" Type="Self.Tbl_TiposTranssacciones" Multiplicity="1" />
+          <End Role="Tbl_Transsacciones" Type="Self.Tbl_Transsacciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tbl_TiposTranssacciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tbl_Transsacciones">
+              <PropertyRef Name="Tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlueBankEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tbl_Cuentas" EntityType="Self.Tbl_Cuentas" />
+          <EntitySet Name="Tbl_Personas" EntityType="Self.Tbl_Personas" />
+          <EntitySet Name="Tbl_TiposTranssacciones" EntityType="Self.Tbl_TiposTranssacciones" />
+          <EntitySet Name="Tbl_Transsacciones" EntityType="Self.Tbl_Transsacciones" />
+          <AssociationSet Name="FK_Tbl_Cuentas_Tbl_Personas" Association="Self.FK_Tbl_Cuentas_Tbl_Personas">
+            <End Role="Tbl_Personas" EntitySet="Tbl_Personas" />
+            <End Role="Tbl_Cuentas" EntitySet="Tbl_Cuentas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Transsacciones_Tbl_Cuentas" Association="Self.FK_Tbl_Transsacciones_Tbl_Cuentas">
+            <End Role="Tbl_Cuentas" EntitySet="Tbl_Cuentas" />
+            <End Role="Tbl_Transsacciones" EntitySet="Tbl_Transsacciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tbl_Transsacciones_Tbl_TiposTranssacciones" Association="Self.FK_Tbl_Transsacciones_Tbl_TiposTranssacciones">
+            <End Role="Tbl_TiposTranssacciones" EntitySet="Tbl_TiposTranssacciones" />
+            <End Role="Tbl_Transsacciones" EntitySet="Tbl_Transsacciones" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BlueBankModelStoreContainer" CdmEntityContainer="BlueBankEntities">
+          <EntitySetMapping Name="Tbl_Cuentas">
+            <EntityTypeMapping TypeName="BlueBankModel.Tbl_Cuentas">
+              <MappingFragment StoreEntitySet="Tbl_Cuentas">
+                <ScalarProperty Name="CuentaNumero" ColumnName="CuentaNumero" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+                <ScalarProperty Name="Persona" ColumnName="Persona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Personas">
+            <EntityTypeMapping TypeName="BlueBankModel.Tbl_Personas">
+              <MappingFragment StoreEntitySet="Tbl_Personas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_TiposTranssacciones">
+            <EntityTypeMapping TypeName="BlueBankModel.Tbl_TiposTranssacciones">
+              <MappingFragment StoreEntitySet="Tbl_TiposTranssacciones">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tbl_Transsacciones">
+            <EntityTypeMapping TypeName="BlueBankModel.Tbl_Transsacciones">
+              <MappingFragment StoreEntitySet="Tbl_Transsacciones">
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="CuentaNumero" ColumnName="CuentaNumero" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
